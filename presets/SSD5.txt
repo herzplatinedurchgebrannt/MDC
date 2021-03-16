@@ -1,0 +1,9 @@
+{"instrument":"Kick","original": 36,"replace": 6}
+{"instrument":"Snare","original": 38,"replace": 12}
+{"instrument":"HiHatOpen","original": 46,"replace": 26}
+{"instrument":"CrashLeft","original": 49,"replace": 45}
+{"instrument":"CrashRight","original": 57,"replace": 47}
+{"instrument":"HiHatClosed","original": 42,"replace": 23}
+{"instrument":"TomLow","original": 48,"replace": 41}
+{"instrument":"TomMiddle","original": 50,"replace": 38}
+{"instrument":"TomFloor","original": 43,"replace": 41}
