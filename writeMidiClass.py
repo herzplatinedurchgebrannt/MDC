@@ -2,10 +2,26 @@ class WriteMidiClass():
     def __init__(self):
         pass
 
-    def main(self, pattern, notes, path, name):
+    def writeMidi(self, pattern, notes, path, name):
         from mido import Message, MidiFile, MidiTrack, MetaMessage
         from mido import bpm2tempo
         import numpy as np
+
+"""
+        pattern=[[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+        [0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1],
+        [0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]
+
+        notes = [6,12,23,44,45,46,47,48]
+
+        path = "./"
+        name = 'new_song10'
+        """
 
         self.path = path
         self.pattern=pattern
@@ -27,7 +43,6 @@ class WriteMidiClass():
 
         #track.append(Message('program_change', program=12, time=0))
         mytempo = bpm2tempo(120)
-        print(mytempo)
 
         track0.append(MetaMessage('track_name', name='master', time = 0))
         track0.append(MetaMessage('time_signature', numerator=4, denominator=4, clocks_per_click=24, notated_32nd_notes_per_beat=8, time=0))
@@ -37,12 +52,8 @@ class WriteMidiClass():
         #190
         delta = 70
 
-
-
         # get number of lines + rows of pattern
         a = np.array(pattern)
-
-        
 
         track1.append(MetaMessage('track_name', name='Inst 1', time = 0))
         track1.append(MetaMessage('instrument_name', name='DrumGizmo', time = 0))
