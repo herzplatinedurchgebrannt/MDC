@@ -28,6 +28,18 @@ class Fenster(QMainWindow):
         self.initMe()
 
     def initMe(self):
+
+        self.pattern=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+
+        self.notes = [6,12,23,44,45,46,47,48]
+
         self.sig = EigenerEvent()
         self.sig.schliessmichEvent.connect(self.close)
 
@@ -57,26 +69,32 @@ class Fenster(QMainWindow):
         
         play_button = QPushButton('Play', self)
         play_button.setObjectName("Play")
-        play_button.move(100,400)
+        play_button.move(70,340)
         play_button.setToolTip('Play <b>Sequencer</b>')
         play_button.clicked.connect(self.gedrueckt)
 
         stop_button = QPushButton('Stop', self)
         stop_button.setObjectName("Stop")
-        stop_button.move(400,400)
+        stop_button.move(175,340)
         stop_button.setToolTip('Stop <b>Sequencer</b>')
+
+        
+        
+
+        
 
         #print(stop_button.text())
 
-        distance = 35
+        
 
         #self.button_layout = QHBoxLayout()
         #self.widget_layout = QVBoxLayout()
 
         self.button_list = []
 
-        start_in_x = 50
+        start_in_x = 70
         start_in_y = 50
+        distance = 35
 
         x = start_in_x
         y = start_in_y
@@ -87,20 +105,43 @@ class Fenster(QMainWindow):
                 self.button.setToolTip('Set <b>note</b>')
                 self.button.setObjectName(str(i)+"_"+str(j))
                 self.button.setMaximumWidth(30)
+                self.button.setStyleSheet('QPushButton {background-color: #A3C1DA; color: blue;}')
                 self.button_list.append(self.button)
                 self.button.pressed.connect(self.gedrueckt)
-                #self.button.pressed.connect(self.gedrueckt)
+
                 x = x + distance
             x = start_in_x
             y = y + distance
+
+        y = start_in_y
+        for k in range(0,8):
+            self.w = QLineEdit(self)
+            self.w.move(25,y)
+            self.w.setMaximumWidth(30)
+            self.w.setText(str(self.notes[k]))
+            # add here: alignment, just numbers as inputs
+
+            y = y + distance
+
+
+
         self.show()
 
     def gedrueckt(self):
         sender = self.sender()
-        pressed_button = sender.objectName().split("_")
-        print(pressed_button)
+        a = sender.objectName().split("_")
+        #print(pressed_button[0])
 
-        sender.setStyleSheet('QPushButton {background-color: #A3C1DA; color: red;}')
+        if self.pattern[int(a[0])][int(a[1])]==0:
+            self.pattern[int(a[0])][int(a[1])] = 1
+            sender.setStyleSheet('QPushButton {background-color: gray; color: red;}')
+        else:
+            self.pattern[int(a[0])][int(a[1])] = 0
+            sender.setStyleSheet('QPushButton {background-color: #A3C1DA; color: blue;}')
+
+        print(self.pattern)
+
+
         
         #print(sender.objectName())
 
