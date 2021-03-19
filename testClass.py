@@ -1,12 +1,26 @@
 class WriteMidiClass():
     def __init__(self):
         pass
+    """
+        self.pattern=[[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+        [0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1],
+        [0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]
+
+        self.notes = [6,12,23,44,45,46,47,48]
+
+        self.path = "./"
+        self.name = 'new_song10'"""
 
     def writeMidi(self, pattern, notes, path, name):
         from mido import Message, MidiFile, MidiTrack, MetaMessage
         from mido import bpm2tempo
         import numpy as np
-        
+
         self.path = path
         self.pattern=pattern
         self.notes = notes

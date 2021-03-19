@@ -2,22 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-
-"""
-        pattern=[[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-        [0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1],
-        [0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,0],
-        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]
-
-        notes = [6,12,23,44,45,46,47,48]
-
-        path = "./"
-        name = 'new_song10'
-        """
+from writeMidiClass import WriteMidiClass
 
 class EigenerEvent(QObject):
     schliessmichEvent = pyqtSignal()
@@ -28,6 +13,7 @@ class Fenster(QMainWindow):
         self.initMe()
 
     def initMe(self):
+        #self.write_File = WriteMidiClass()
 
         self.pattern=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -54,13 +40,18 @@ class Fenster(QMainWindow):
         exitMe.setStatusTip('Exit')
         exitMe.triggered.connect(self.close)
 
+        saveMidi = QAction(QIcon('coconut.png'), 'Save', self)
+        saveMidi.triggered.connect(self.saveMidi)
+
         menubar = self.menuBar()
         file = menubar.addMenu('&File')
         file.addAction("Open")
-        file.addAction("Save")
+        file.addAction(saveMidi)
         file.addSeparator()
         file.addAction(exitMe)
         view = menubar.addMenu('&View')
+
+        
 
         #toolbar = self.addToolBar('Exit')
         #toolbar.addAction(exitMe)
@@ -78,20 +69,7 @@ class Fenster(QMainWindow):
         stop_button.move(175,340)
         stop_button.setToolTip('Stop <b>Sequencer</b>')
 
-        
-        
-
-        
-
-        #print(stop_button.text())
-
-        
-
-        #self.button_layout = QHBoxLayout()
-        #self.widget_layout = QVBoxLayout()
-
         self.button_list = []
-
         start_in_x = 70
         start_in_y = 50
         distance = 35
@@ -108,29 +86,28 @@ class Fenster(QMainWindow):
                 self.button.setStyleSheet('QPushButton {background-color: #A3C1DA; color: blue;}')
                 self.button_list.append(self.button)
                 self.button.pressed.connect(self.gedrueckt)
-
                 x = x + distance
             x = start_in_x
             y = y + distance
 
+        self.onlyInt = QIntValidator()
         y = start_in_y
         for k in range(0,8):
             self.w = QLineEdit(self)
             self.w.move(25,y)
             self.w.setMaximumWidth(30)
             self.w.setText(str(self.notes[k]))
-            # add here: alignment, just numbers as inputs
-
+            self.w.setAlignment(Qt.AlignCenter)
+            self.w.setStyleSheet('QLineEdit {background-color: #A3C1DA; color: gray;}')
+            self.w.setValidator(self.onlyInt)
+            self.w.setMaxLength(3)
             y = y + distance
-
-
 
         self.show()
 
     def gedrueckt(self):
         sender = self.sender()
         a = sender.objectName().split("_")
-        #print(pressed_button[0])
 
         if self.pattern[int(a[0])][int(a[1])]==0:
             self.pattern[int(a[0])][int(a[1])] = 1
@@ -138,16 +115,19 @@ class Fenster(QMainWindow):
         else:
             self.pattern[int(a[0])][int(a[1])] = 0
             sender.setStyleSheet('QPushButton {background-color: #A3C1DA; color: blue;}')
-
         print(self.pattern)
 
-
-        
-        #print(sender.objectName())
+    def saveMidi(self):
+        writeFile = WriteMidiClass
+        writeFile.writeMidi(self, self.pattern, self.notes, "./", "bla")
 
     def keyPressEvent(self, QKeyEvent):
         if QKeyEvent.key() == Qt.Key_E:
             self.sig.schliessmichEvent.emit()
+"""
+    def writeMidi (self):
+        self.write_File.writeMidi(self.pattern, self.notes, "./", "bla")"""
+
 
 app = QApplication(sys.argv)
 w = Fenster()
